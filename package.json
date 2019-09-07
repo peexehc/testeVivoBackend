@@ -4,6 +4,7 @@
   "description": "Node.js backend - Teste para desenvolvedor web Vivo",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon src/app.js",
     "test": "test"
   },
   "repository": {
