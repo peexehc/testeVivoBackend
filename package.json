@@ -1,0 +1,19 @@
+{
+  "name": "testevivobackend",
+  "version": "1.0.0",
+  "description": "Node.js backend - Teste para desenvolvedor web Vivo",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peexehc/testeVivoBackend.git"
+  },
+  "author": "Douglas Garbim Jr <garbim.douglas@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/peexehc/testeVivoBackend/issues"
+  },
+  "homepage": "https://github.com/peexehc/testeVivoBackend#readme"
+}
