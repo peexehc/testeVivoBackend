@@ -42,7 +42,13 @@ module.exports = {
           response[jogo.rodada].qtdJogos = response[jogo.rodada].jogos.length
         })
 
-        return res.json(response)
+        if (req.params.rodada && response[req.params.rodada] !== undefined) {
+          return res.json(response[req.params.rodada])
+        } else if (req.params.rodada && response[req.params.rodada] === undefined) {
+          return res.send(`Rodada do campeonato inválida!<br/><br/>Rodadas disponíveis: ${rodadas}`)
+        } else {
+          return res.json(response)
+        }
       })
     })
   }
