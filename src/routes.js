@@ -1,8 +1,8 @@
-// const MainController = require('../Controllers/MainController')
 const express = require('express')
+const Api = require('./Controllers/Api')
 
 const routes = new express.Router()
 
-routes.get('/', (req, res) => res.send(console.log(global.db)))
+routes.get('/championship', Api.championship)
 
 module.exports = routes
