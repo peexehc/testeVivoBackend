@@ -251,6 +251,21 @@ module.exports = {
         })
       })
 
+      const queryRodadas = `SELECT DISTINCT
+      codigoRodada as rodada
+      FROM tt_rodadas
+      ORDER BY codigoRodada ASC`
+
+      const rodadas = []
+
+      connection.query(queryRodadas, (error, result) => {
+        if (error) console.log(error)
+
+        result.forEach(rodada => {
+          rodadas.push(rodada.rodada)
+        })
+      })
+
       const queryJogos = `SELECT
       tt_rodadas.codigoRodada as rodada,
       tt_rodadas.dataJogo as data,
@@ -272,61 +287,65 @@ module.exports = {
 
         if (error) console.log(error)
 
-        times.forEach(time => {
-          Object.defineProperty(response, time.replace(/(\r\n|\n|\r)/gm, ''), {
-            value: {
-              time: time.replace(/(\r\n|\n|\r)/gm, ''),
-              qtdJogos: '',
-              qtdVitorias: '',
-              qtdDerrotas: '',
-              qtdEmpates: '',
-              jogos: []
-            },
-            enumerable: true,
-            configurable: true
+        if (result.length >= 1) {
+          times.forEach(time => {
+            Object.defineProperty(response, time.replace(/(\r\n|\n|\r)/gm, ''), {
+              value: {
+                time: time.replace(/(\r\n|\n|\r)/gm, ''),
+                qtdJogos: '',
+                qtdVitorias: '',
+                qtdDerrotas: '',
+                qtdEmpates: '',
+                jogos: []
+              },
+              enumerable: true,
+              configurable: true
+            })
           })
-        })
 
-        result.forEach(jogo => {
-          const timeMandante = jogo.timeMandante.replace(/(\r\n|\n|\r)/gm, '')
-          const timeVisitante = jogo.timeVisitante.replace(/(\r\n|\n|\r)/gm, '')
-          let vitoriaMandante = false
-          let vitoriaVisitante = false
-          let empate = false
+          result.forEach(jogo => {
+            const timeMandante = jogo.timeMandante.replace(/(\r\n|\n|\r)/gm, '')
+            const timeVisitante = jogo.timeVisitante.replace(/(\r\n|\n|\r)/gm, '')
+            let vitoriaMandante = false
+            let vitoriaVisitante = false
+            let empate = false
 
-          if (jogo.placarTimeMandante > jogo.placarTimeVisitante) {
-            vitoriaMandante = true
-          } else if (jogo.placarTimeMandante === jogo.placarTimeVisitante) {
-            empate = true
-          } else {
-            vitoriaVisitante = true
-          }
+            if (jogo.placarTimeMandante > jogo.placarTimeVisitante) {
+              vitoriaMandante = true
+            } else if (jogo.placarTimeMandante === jogo.placarTimeVisitante) {
+              empate = true
+            } else {
+              vitoriaVisitante = true
+            }
 
-          response[timeMandante].jogos.push(jogo)
-          response[timeVisitante].jogos.push(jogo)
+            response[timeMandante].jogos.push(jogo)
+            response[timeVisitante].jogos.push(jogo)
 
-          response[timeMandante].qtdJogos = response[timeMandante].jogos.length
-          response[timeVisitante].qtdJogos = response[timeVisitante].jogos.length
+            response[timeMandante].qtdJogos = response[timeMandante].jogos.length
+            response[timeVisitante].qtdJogos = response[timeVisitante].jogos.length
 
-          if (vitoriaMandante) {
-            response[timeMandante].qtdVitorias++
-            response[timeVisitante].qtdDerrotas++
-          }
+            if (vitoriaMandante) {
+              response[timeMandante].qtdVitorias++
+              response[timeVisitante].qtdDerrotas++
+            }
 
-          if (vitoriaVisitante) {
-            response[timeVisitante].qtdVitorias++
-            response[timeMandante].qtdDerrotas++
-          }
+            if (vitoriaVisitante) {
+              response[timeVisitante].qtdVitorias++
+              response[timeMandante].qtdDerrotas++
+            }
 
-          if (empate) {
-            response[timeMandante].qtdEmpates++
-            response[timeVisitante].qtdEmpates++
-          }
-        })
+            if (empate) {
+              response[timeMandante].qtdEmpates++
+              response[timeVisitante].qtdEmpates++
+            }
+          })
 
-        const resArray = Object.values(response)
+          const resArray = Object.values(response)
 
-        return res.json(resArray)
+          return res.json(resArray)
+        } else {
+          res.status(400).send(`Rodada do campeonato inválida!<br/><br/>Rodadas disponíveis: ${rodadas}`)
+        }
       })
     })
   }
