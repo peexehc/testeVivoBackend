@@ -66,10 +66,11 @@ Resposta da API:
 ```
 
 Filtros:
+
 |URL|Parâmetro|Descrição|
 |--|--|--|
 |/championship/*rodada*|*rodada* (INT)|Permite buscar os jogos da rodada inserida|
-|/championship/time/*nome*|*nome* (STRING)|Permite buscar os jogos do time que corresponda com o nome inserido
+|/championship/time/*nome*|*nome* (STRING)|Permite buscar os jogos do time que corresponda com o nome inserido|
 
 ### /team
 
@@ -121,9 +122,8 @@ Resposta da API:
 ]
 ```
 Filtros:
+
 |URL|Parâmetro|Descrição|
 |--|--|--|
 |/team/*nome*|*nome* (STRING)|Permite buscar os jogos do time que corresponda com o nome inserido|
-|/team/rodada/*rodada*|*rodada* (INT)|Permite buscar os jogos da rodada inserida
-
-#
+|/team/rodada/*rodada*|*rodada* (INT)|Permite buscar os jogos da rodada inserida|
